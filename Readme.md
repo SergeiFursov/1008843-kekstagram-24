@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Сергей Фурсов](https://up.htmlacademy.ru/javascript/24/user/1008843).
-* Наставник: [Руслан Давлетбаев](https://htmlacademy.ru/profile/davletbaev).
+* Наставник: [Руслан Давлетбаев].
 
 ---
 
