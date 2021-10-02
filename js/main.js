@@ -12,8 +12,8 @@ getRandomNumber(1, 10);
 
 // Функция для проверки максимальной длины строки.
 
-function getStringLength (checkedString, maxLength) {
+function isStringShorterThanMax (checkedString, maxLength) {
   return checkedString.length <= maxLength;
 }
 
-getStringLength(123, 140);
+isStringShorterThanMax(123, 140);
