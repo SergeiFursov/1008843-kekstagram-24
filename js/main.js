@@ -93,4 +93,4 @@ const createUserPost = () => {
   };
 };
 
-const similarUserPost = Array.from({length: SIMILAR_USER_POST_COUNT}, createUserPost);
+Array.from({length: SIMILAR_USER_POST_COUNT}, createUserPost);
