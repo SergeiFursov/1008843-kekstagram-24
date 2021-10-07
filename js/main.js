@@ -61,20 +61,6 @@ const SIMILAR_USER_POST_COUNT = 25;
 
 const COMMENTS_COUNT = 3;
 
-const createUserPost = () => {
-  const randomIdIndexPost = getRandomNumber(1, 25);
-  const randomPhotoIndex = getRandomNumber(1, 25);
-  const randomDescriptionIndex = getRandomNumber(0, NAMES.length - 1);
-  const randomLikesIndex = getRandomNumber(15, 200);
-
-  return {
-    id: randomIdIndexPost,
-    url: `photos/${  randomPhotoIndex   }.jpg`,
-    description: DESCRIPTION[randomDescriptionIndex],
-    likes: randomLikesIndex,
-    comments: commentsUsers,
-  };
-};
 
 const commentUser = () => {
   const randomIdIndex = getRandomNumber(1, 25);
@@ -90,8 +76,21 @@ const commentUser = () => {
   };
 };
 
-
 const commentsUsers = Array.from({length: COMMENTS_COUNT}, commentUser);
 
-const similarUserPost = Array.from({length: SIMILAR_USER_POST_COUNT}, createUserPost);
+const createUserPost = () => {
+  const randomIdIndexPost = getRandomNumber(1, 25);
+  const randomPhotoIndex = getRandomNumber(1, 25);
+  const randomDescriptionIndex = getRandomNumber(0, NAMES.length - 1);
+  const randomLikesIndex = getRandomNumber(15, 200);
 
+  return {
+    id: randomIdIndexPost,
+    url: `photos/${  randomPhotoIndex   }.jpg`,
+    description: DESCRIPTION[randomDescriptionIndex],
+    likes: randomLikesIndex,
+    comments: commentsUsers,
+  };
+};
+
+const similarUserPost = Array.from({length: SIMILAR_USER_POST_COUNT}, createUserPost);
