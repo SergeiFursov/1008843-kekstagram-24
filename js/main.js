@@ -1,23 +1,5 @@
-// Функция, возвращающая случайное целое число из переданного диапазона включительно.
 
-function getRandomNumber(min, max) {
-  if (min >= max) {
-    return;
-  }
-  return Math.round(Math.random() * (max - min) + min);
-}
-
-getRandomNumber();
-
-// Функция для проверки максимальной длины строки.
-
-function isStringShorterThanMax (checkedString, maxLength) {
-  return checkedString.length <= maxLength;
-}
-
-isStringShorterThanMax(123, 140);
-
-const MESSAGE = [
+const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
   'Когда вы делаете фотографию, хорошо бы убирать палец из кадра. В конце концов это просто непрофессионально.',
@@ -33,9 +15,11 @@ const NAMES = [
   'Юлия',
   'Сергей',
   'Татьяна',
+  'Михаил',
+  'Елена',
 ];
 
-const DESCRIPTION = [
+const DESCRIPTIONS = [
   'Нашли полезные гаджеты',
   'Не только для ежедневного пользования',
   'Стандартная вещь, которая будет полезна',
@@ -55,42 +39,88 @@ const DESCRIPTION = [
   'Как это сделать и не нарушить личные границы питомца',
   'Медленно, но верно',
   'Не забывайте, что кошки — не собаки',
+  'Я фотографирую собак и живу с двумя бордер-колли',
+  'Я научила ее парочке команд, и меня это увлекло',
+  'На 96% рацион кошки состоит из домашней пищи',
+  'Родителям в этот момент стало и стыдно, и смешно одновременно',
+  'Я благодарна им за этот поворотный момент в моей жизни',
+  'Как-то увидела его фотографию — понравился',
 ];
-
-const SIMILAR_USER_POST_COUNT = 25;
 
 const COMMENTS_COUNT = 3;
 
+const PHOTOS_DESCRIPTION_COUNT = 25;
 
-const commentUser = () => {
-  const randomIdIndex = getRandomNumber(1, 25);
-  const randomAvatarIndex = getRandomNumber(0, 6);
-  const randomMessageIndex = getRandomNumber(0, MESSAGE.length - 1);
-  const randomNameIndex = getRandomNumber(0, NAMES.length - 1);
+function shuffle(array) {
+  let currentIndex = array.length, temporaryValue, randomIndex ;
+
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
+function getRandomNumber(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  if (min >= max) {
+    return;
+  }
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function createCommentIdGenerator () {
+  let lastGeneratedId = 26;
+
+  return function () {
+    lastGeneratedId += 1;
+    return lastGeneratedId;
+  };
+}
+
+const randomPhotoId = [];
+// eslint-disable-next-line id-length
+for (let i = 1; i <= 25; i++) {
+  randomPhotoId.push(i);
+}
+shuffle(randomPhotoId);
+
+const randomDescriptionId = [];
+// eslint-disable-next-line id-length
+for (let i = 1; i <= 25; i++) {
+  randomDescriptionId.push(i);
+}
+shuffle(randomDescriptionId);
+
+const randomCommentId = createCommentIdGenerator ();
+
+const createCommentUser = () => {
+  const randomNameNumber =  getRandomNumber(0, NAMES.length - 1);
+  const randomMessageNumber =  getRandomNumber(0, MESSAGES.length - 1);
+  const randomAvatarId = getRandomNumber(1, 6);
 
   return {
-    id: randomIdIndex,
-    avatar: `img/avatar-${  randomAvatarIndex  }.svg`,
-    message: MESSAGE[randomMessageIndex],
-    name: NAMES[randomNameIndex],
+    id: randomCommentId(),
+    avatar: `img/avatar-${  randomAvatarId  }.svg`,
+    message: MESSAGES[randomMessageNumber],
+    name: NAMES[randomNameNumber],
   };
 };
-
-const commentsUsers = Array.from({length: COMMENTS_COUNT}, commentUser);
 
 const createUserPost = () => {
-  const randomIdIndexPost = getRandomNumber(1, 25);
-  const randomPhotoIndex = getRandomNumber(1, 25);
-  const randomDescriptionIndex = getRandomNumber(0, NAMES.length - 1);
-  const randomLikesIndex = getRandomNumber(15, 200);
+  const randomLikesNumber = getRandomNumber(15, 200);
 
   return {
-    id: randomIdIndexPost,
-    url: `photos/${  randomPhotoIndex   }.jpg`,
-    description: DESCRIPTION[randomDescriptionIndex],
-    likes: randomLikesIndex,
-    comments: commentsUsers,
+    id:  randomDescriptionId.shift(),
+    url: `photos/${  randomPhotoId.shift()   }.jpg`,
+    description: DESCRIPTIONS.shift(),
+    likes: randomLikesNumber,
+    comments: Array.from({length: COMMENTS_COUNT}, createCommentUser),
   };
 };
 
-Array.from({length: SIMILAR_USER_POST_COUNT}, createUserPost);
+Array.from({length: PHOTOS_DESCRIPTION_COUNT}, createUserPost);
