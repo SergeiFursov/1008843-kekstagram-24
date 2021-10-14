@@ -1,3 +1,23 @@
+function shuffle(array) {
+  let currentIndex = array.length, temporaryValue, randomIndex ;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+  return array;
+}
+
+function getRandomNumber(min, max) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  if (min >= max) {
+    return;
+  }
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
 
 const MESSAGES = [
   'Всё отлично!',
@@ -15,8 +35,6 @@ const NAMES = [
   'Юлия',
   'Сергей',
   'Татьяна',
-  'Михаил',
-  'Елена',
 ];
 
 const DESCRIPTIONS = [
@@ -51,52 +69,20 @@ const COMMENTS_COUNT = 3;
 
 const PHOTOS_DESCRIPTION_COUNT = 25;
 
-function shuffle(array) {
-  let currentIndex = array.length, temporaryValue, randomIndex ;
-
-  while (0 !== currentIndex) {
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex -= 1;
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
-  }
-  return array;
-}
-
-function getRandomNumber(min, max) {
-  min = Math.ceil(min);
-  max = Math.floor(max);
-  if (min >= max) {
-    return;
-  }
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-function createCommentIdGenerator () {
-  let lastGeneratedId = 26;
-
+function createIdGenerator () {
+  let lastGeneratedId = 0;
   return function () {
     lastGeneratedId += 1;
     return lastGeneratedId;
   };
 }
 
-const randomPhotoId = [];
-// eslint-disable-next-line id-length
-for (let i = 1; i <= 25; i++) {
-  randomPhotoId.push(i);
-}
-shuffle(randomPhotoId);
+const generateId = createIdGenerator ();
+const postIds = Array.from({length: 25}, generateId);
+const imageIds = postIds.slice();
 
-const randomDescriptionId = [];
-// eslint-disable-next-line id-length
-for (let i = 1; i <= 25; i++) {
-  randomDescriptionId.push(i);
-}
-shuffle(randomDescriptionId);
-
-const randomCommentId = createCommentIdGenerator ();
+shuffle(postIds);
+shuffle(imageIds);
 
 const createCommentUser = () => {
   const randomNameNumber =  getRandomNumber(0, NAMES.length - 1);
@@ -104,7 +90,7 @@ const createCommentUser = () => {
   const randomAvatarId = getRandomNumber(1, 6);
 
   return {
-    id: randomCommentId(),
+    id: generateId(),
     avatar: `img/avatar-${  randomAvatarId  }.svg`,
     message: MESSAGES[randomMessageNumber],
     name: NAMES[randomNameNumber],
@@ -115,8 +101,8 @@ const createUserPost = () => {
   const randomLikesNumber = getRandomNumber(15, 200);
 
   return {
-    id:  randomDescriptionId.shift(),
-    url: `photos/${  randomPhotoId.shift()   }.jpg`,
+    id:  postIds.shift(),
+    url: `photos/${  imageIds.shift()   }.jpg`,
     description: DESCRIPTIONS.shift(),
     likes: randomLikesNumber,
     comments: Array.from({length: COMMENTS_COUNT}, createCommentUser),
