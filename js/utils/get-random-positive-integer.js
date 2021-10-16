@@ -25,3 +25,5 @@ function getRandomPositiveInteger (aa, bb) {
 }
 
 getRandomPositiveInteger();
+
+export {getRandomPositiveInteger};
