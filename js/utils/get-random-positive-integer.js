@@ -25,5 +25,4 @@ function getRandomPositiveInteger (aa, bb) {
 }
 
 getRandomPositiveInteger();
-// eslint-disable-next-line no-console
-console.log(getRandomPositiveInteger());
+

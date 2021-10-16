@@ -3,5 +3,3 @@ function checkStringLength (string, length) {
 }
 
 checkStringLength();
-// eslint-disable-next-line no-console
-console.log(checkStringLength());
