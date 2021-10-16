@@ -25,4 +25,3 @@ function getRandomPositiveInteger (aa, bb) {
 }
 
 getRandomPositiveInteger();
-
