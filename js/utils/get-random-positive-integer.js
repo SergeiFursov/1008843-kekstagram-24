@@ -28,4 +28,4 @@ function getRandomPositiveInteger (aa, bb) {
   return Math.floor(result);
 }
 
-getRandomPositiveInteger(1, 5);
+getRandomPositiveInteger();
