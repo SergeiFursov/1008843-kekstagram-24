@@ -1,8 +1,6 @@
 import {createUserPosts} from './data.js';
 
 const pictures = document.querySelector('.pictures');
-// console.log(pictures);
-
 const pictureTemplate = document.querySelector('#picture').content.querySelector('a');
 
 const miniatures = createUserPosts();
@@ -13,7 +11,6 @@ const miniatures = createUserPosts();
 // const commentsItems = miniatures.map((key) => key.comments.length);
 
 const pictureFragment = document.createDocumentFragment();
-
 
 miniatures.forEach(({url, likes, comments}) => {
   const miniatureElement = pictureTemplate.cloneNode(true);
