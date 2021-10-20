@@ -1,3 +1,4 @@
+import {createIdGenerator, getRandomNumber, shuffle} from './util.js';
 
 const MESSAGES = [
   'Всё отлично!',
@@ -45,8 +46,43 @@ const DESCRIPTIONS = [
   'Как-то увидела его фотографию — понравился',
 ];
 
-const COMMENTS_COUNT = 3;
-
+const COMMENTS_COUNT = 5;
 const PHOTOS_DESCRIPTION_COUNT = 25;
 
-export {COMMENTS_COUNT, NAMES, DESCRIPTIONS, PHOTOS_DESCRIPTION_COUNT, MESSAGES};
+const generateId = createIdGenerator ();
+
+const createCommentUser = () => {
+  const randomNameNumber =  getRandomNumber(0, NAMES.length - 1);
+  const randomMessageNumber =  getRandomNumber(0, MESSAGES.length - 1);
+  const randomAvatarId = getRandomNumber(1, 6);
+
+  return {
+    id: generateId(),
+    avatar: `img/avatar-${  randomAvatarId  }.svg`,
+    message: MESSAGES[randomMessageNumber],
+    name: NAMES[randomNameNumber],
+  };
+};
+
+// createCommentUser();
+const postIds = Array.from({length: 25}, generateId);
+const imageIds = postIds.slice();
+
+shuffle(postIds);
+shuffle(imageIds);
+
+const createUserPost = () => {
+  const randomLikesNumber = getRandomNumber(15, 200);
+
+  return {
+    id:  postIds.shift(),
+    url: `photos/${  imageIds.shift()   }.jpg`,
+    description: DESCRIPTIONS.shift(),
+    likes: randomLikesNumber,
+    comments: Array.from({length: COMMENTS_COUNT}, createCommentUser),
+  };
+};
+
+const createUserPosts = () => Array.from({length: PHOTOS_DESCRIPTION_COUNT}, createUserPost);
+
+export {createUserPosts};
