@@ -49,6 +49,8 @@ const DESCRIPTIONS = [
 const COMMENTS_COUNT = 5;
 const PHOTOS_DESCRIPTION_COUNT = 25;
 
+const MAX_LENGTH = 140;
+
 const generateId = createIdGenerator ();
 
 const createCommentUser = () => {
@@ -85,4 +87,4 @@ const createUserPost = () => {
 
 const createUserPosts = () => Array.from({length: PHOTOS_DESCRIPTION_COUNT}, createUserPost);
 
-export {createUserPosts};
+export {createUserPosts, MAX_LENGTH};
