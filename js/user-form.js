@@ -1,4 +1,4 @@
-import {MAX_LENGTH} from './data.js';
+import {MAX_LENGTH, MAX_HASHTAG_LENGTH} from './data.js';
 
 const commentUserInput = document.querySelector('.text__description');
 
@@ -16,23 +16,23 @@ const textHashtagInput = document.querySelector('.text__hashtags');
 
 
 textHashtagInput.addEventListener('input', () => {
-  const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}/;
-  const test = re.test(textHashtagInput.value);
-  const inputTextLength = textHashtagInput.value.length;
-  const minHashtagLength = 2;
-  const maxHashtagLength = 20;
+  const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+  const inputTextLength = textHashtagInput.value;
+  const valueLength = inputTextLength.length;
+  const strHashtag = inputTextLength.split(' ', 5);
 
-  if (inputTextLength < minHashtagLength) {
-    textHashtagInput.setCustomValidity(`Добавьте еще ${minHashtagLength - inputTextLength} симв.`);
-  }else if (inputTextLength > maxHashtagLength) {
-    textHashtagInput.setCustomValidity(`Удалите лишние ${ inputTextLength - maxHashtagLength } симв. Название хэштега не должно превышать 20-ти симв.`);
-  } else  if (!test) {
-    textHashtagInput.setCustomValidity('Хэштег начинается с символа #');
-  } else {
-    textHashtagInput.setCustomValidity('');
+  for (let i = 0; i < strHashtag.length; i++) {
+    const test = re.test(strHashtag[i]);
+
+    if (!test) {
+      textHashtagInput.setCustomValidity('Хэштег начинается с символа #, минимум два символа, состоит только из букв и цифр, не повторяется');
+    } else if (valueLength > MAX_HASHTAG_LENGTH) {
+      textHashtagInput.setCustomValidity(`Удалите лишние ${valueLength - MAX_HASHTAG_LENGTH} симв. Длина хэштега 20 симв.`);
+    } else {
+      textHashtagInput.setCustomValidity('');
+    }
+    textHashtagInput.reportValidity();
   }
-
-  textHashtagInput.reportValidity();
 });
 
 

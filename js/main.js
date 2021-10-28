@@ -2,7 +2,7 @@ import './util.js';
 import './data.js';
 import './comment-user.js';
 import './user-form.js';
-import './edit-img.js';
+import './view-uploaded-images.js';
 import './send-data.js';
 import './upload-file.js';
 import './miniatures.js';
