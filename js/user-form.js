@@ -1,6 +1,7 @@
 import {MAX_LENGTH, MAX_HASHTAG_LENGTH} from './data.js';
 
 const commentUserInput = document.querySelector('.text__description');
+const textHashtagInput = document.querySelector('.text__hashtags');
 
 commentUserInput.addEventListener('input', () => {
   const length = commentUserInput.value.length;
@@ -12,29 +13,43 @@ commentUserInput.addEventListener('input', () => {
   commentUserInput.reportValidity();
 });
 
-const textHashtagInput = document.querySelector('.text__hashtags');
-
-
 textHashtagInput.addEventListener('input', () => {
   const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-  const inputTextLength = textHashtagInput.value;
-  const valueLength = inputTextLength.length;
-  const strHashtag = inputTextLength.split(' ', 5);
+  const textHashtagValue = textHashtagInput.value;
+  const strHashtags = textHashtagValue.split(' ');
 
-  for (let i = 0; i < strHashtag.length; i++) {
-    const test = re.test(strHashtag[i]);
+  const itemsCountHashtag = {};
+  strHashtags.forEach((value) => {
+    if (value in itemsCountHashtag) {
+      itemsCountHashtag[value] += 1;
+    } else {
+      itemsCountHashtag[value] = 1;
+    }
+  });
+  const itemCountRepeat = Object.values(itemsCountHashtag);
+  for (let index = 0; index < itemCountRepeat.length; index++) {
+    if (itemCountRepeat[index] === 2) {
+      textHashtagInput.setCustomValidity('Хэштег не может быть использован два раза');
+    } else {
+      textHashtagInput.setCustomValidity('');
+    }
+    textHashtagInput.reportValidity();
+  }
 
-    if (!test) {
-      textHashtagInput.setCustomValidity('Хэштег начинается с символа #, минимум два символа, состоит только из букв и цифр, не повторяется');
-    } else if (valueLength > MAX_HASHTAG_LENGTH) {
-      textHashtagInput.setCustomValidity(`Удалите лишние ${valueLength - MAX_HASHTAG_LENGTH} симв. Длина хэштега 20 симв.`);
+  for (let j = 0; j < strHashtags.length; j++) {
+    const test = re.test(strHashtags[j]);
+    if (strHashtags[j].length > MAX_HASHTAG_LENGTH) {
+      textHashtagInput.setCustomValidity(`Удалите лишние ${strHashtags[j].length - MAX_HASHTAG_LENGTH} симв. Максимальная длина 20 симв.`);
+    } else if (strHashtags.length > 5) {
+      textHashtagInput.setCustomValidity('Количество хэштегов не более пяти');
+    } else if (!test) {
+      textHashtagInput.setCustomValidity('Хэштег должен начинаться с символа #, минимум 2 симв.');
     } else {
       textHashtagInput.setCustomValidity('');
     }
     textHashtagInput.reportValidity();
   }
 });
-
 
 const stopEventEsc = (evt) => {
   evt.stopPropagation();
