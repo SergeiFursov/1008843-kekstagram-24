@@ -19,6 +19,10 @@ function getRandomNumber(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+function isStringShorterThanMax(checkedString, maxLength) {
+  return checkedString <= maxLength;
+}
+
 function createIdGenerator () {
   let lastGeneratedId = 0;
   return function () {
@@ -29,4 +33,4 @@ function createIdGenerator () {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {createIdGenerator, shuffle, getRandomNumber, isEscapeKey};
+export {createIdGenerator, shuffle, getRandomNumber, isEscapeKey, isStringShorterThanMax};

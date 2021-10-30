@@ -1,12 +1,13 @@
 import {MAX_LENGTH, MAX_HASHTAG_LENGTH} from './data.js';
+import {isStringShorterThanMax} from './util.js';
 
 const commentUserInput = document.querySelector('.text__description');
 const textHashtagInput = document.querySelector('.text__hashtags');
 
 commentUserInput.addEventListener('input', () => {
-  const length = commentUserInput.value.length;
-  if (length > MAX_LENGTH) {
-    commentUserInput.setCustomValidity(`Удалите лишние ${length - MAX_LENGTH} симв. Длина комментария 140 симв.`);
+  const lengthValue = commentUserInput.value.length;
+  if (!isStringShorterThanMax(lengthValue, MAX_LENGTH)) {
+    commentUserInput.setCustomValidity(`Удалите лишние ${lengthValue - MAX_LENGTH} симв. Длина комментария 140 симв.`);
   } else {
     commentUserInput.setCustomValidity('');
   }
