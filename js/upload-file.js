@@ -35,4 +35,4 @@ userFormCloseElement.addEventListener('click', () => {
   closeUserForm();
 });
 
-export  {openUserForm, bodyElement};
+export  {openUserForm};
