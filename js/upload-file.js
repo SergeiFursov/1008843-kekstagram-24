@@ -5,8 +5,6 @@ const userFormOpenElement = document.querySelector('#upload-file');
 const userFormCloseElement = document.querySelector('#upload-cancel');
 const bodyElement = document.querySelector('body');
 const closeFormEsc = document.querySelector('.img-upload__form');
-// const commentUserInput = document.querySelector('.text__description');
-// const textHashtagsInput = document.querySelector('.text__hashtags');
 
 const onFormEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -38,4 +36,4 @@ userFormCloseElement.addEventListener('click', () => {
   closeUserForm();
 });
 
-export  {openUserForm};
+export  {openUserForm, bodyElement};
