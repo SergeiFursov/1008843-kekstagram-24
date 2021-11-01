@@ -13,6 +13,8 @@ const descriptionBigPicture = document.querySelector('.social__caption');
 const socialComments = document.querySelector('.social__comments');
 const avatarUserComment = socialComments.querySelectorAll('.social__picture');
 const textUserComment = socialComments.querySelectorAll('.social__text');
+const socialCommentCount = document.querySelector('.social__comment-count');
+const commentsLoader = document.querySelector('.social__comments-loader');
 
 const onFullScreenEscKeydown = (evt) => {
   if (isEscapeKey(evt)) { // )
@@ -25,6 +27,8 @@ const onFullScreenEscKeydown = (evt) => {
 function openBigPicture() {
   bigPictureOpen.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+  socialCommentCount.classList.add('hidden');
+  commentsLoader.classList.add('hidden');
   document.addEventListener('keydown', onFullScreenEscKeydown);
 }
 
