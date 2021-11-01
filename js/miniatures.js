@@ -22,3 +22,4 @@ miniatures.forEach(({url, likes, comments}) => {
 });
 
 pictures.appendChild(pictureFragment);
+export {miniatures};

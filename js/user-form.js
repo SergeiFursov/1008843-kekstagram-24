@@ -14,42 +14,29 @@ commentUserInput.addEventListener('input', () => {
   commentUserInput.reportValidity();
 });
 
+
 textHashtagInput.addEventListener('input', () => {
-  const re = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
-  const textHashtagValue = textHashtagInput.value;
-  const strHashtags = textHashtagValue.split(' ');
 
+  const textHashtagValue = textHashtagInput.value.toLowerCase().split(' ');
+  const regex = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
   const itemsCountHashtag = {};
-  strHashtags.forEach((value) => {
-    if (value in itemsCountHashtag) {
-      itemsCountHashtag[value] += 1;
-    } else {
-      itemsCountHashtag[value] = 1;
-    }
-  });
-  const itemCountRepeat = Object.values(itemsCountHashtag);
-  for (let index = 0; index < itemCountRepeat.length; index++) {
-    if (itemCountRepeat[index] === 2) {
-      textHashtagInput.setCustomValidity('Хэштег не может быть использован два раза');
-    } else {
-      textHashtagInput.setCustomValidity('');
-    }
-    textHashtagInput.reportValidity();
-  }
+  textHashtagValue.forEach((item) => {
+    const test = regex.test(item);
+    item in itemsCountHashtag ? itemsCountHashtag[item] += 1 : itemsCountHashtag[item] = 1;
 
-  for (let j = 0; j < strHashtags.length; j++) {
-    const test = re.test(strHashtags[j]);
-    if (strHashtags[j].length > MAX_HASHTAG_LENGTH) {
-      textHashtagInput.setCustomValidity(`Удалите лишние ${strHashtags[j].length - MAX_HASHTAG_LENGTH} симв. Максимальная длина 20 симв.`);
-    } else if (strHashtags.length > 5) {
-      textHashtagInput.setCustomValidity('Количество хэштегов не более пяти');
+    if (item.length > MAX_HASHTAG_LENGTH) {
+      textHashtagInput.setCustomValidity(`Удалите лишние ${item.length - MAX_HASHTAG_LENGTH} симв. Максимальная длина 20 симв.`);
     } else if (!test) {
       textHashtagInput.setCustomValidity('Хэштег должен начинаться с символа #, минимум 2 симв.');
+    } else if (itemsCountHashtag[item] > 1) {
+      textHashtagInput.setCustomValidity('Один и тот же хэштег не может быть использован дважды');
+    } else if (textHashtagValue.length > 5) {
+      textHashtagInput.setCustomValidity('Количество хэштегов не более пяти');
     } else {
       textHashtagInput.setCustomValidity('');
     }
     textHashtagInput.reportValidity();
-  }
+  });
 });
 
 const stopEventEsc = (evt) => {
