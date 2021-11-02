@@ -4,6 +4,7 @@ const userFormElement = document.querySelector('.img-upload__overlay');
 const userFormOpenElement = document.querySelector('#upload-file');
 const userFormCloseElement = document.querySelector('#upload-cancel');
 const bodyElement = document.querySelector('body');
+const closeFormEsc = document.querySelector('.img-upload__form');
 
 const onFormEscKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -35,4 +36,4 @@ userFormCloseElement.addEventListener('click', () => {
   closeUserForm();
 });
 
-export  {openUserForm};
+export  {openUserForm, bodyElement};
