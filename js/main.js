@@ -1,10 +1,10 @@
 import './util.js';
 import './data.js';
 import './comment-user.js';
-import './user-post.js';
-import './edit-img.js';
+import './user-form.js';
+import './photo-view.js';
 import './send-data.js';
-import './upload-img.js';
+import './upload-file.js';
 import './miniatures.js';
 import './filter-images.js';
 import './effect-overlay.js';
