@@ -1,4 +1,4 @@
-import { MAX_LENGTH_COMMENT, MAX_HASHTAG_LENGTH, MIN_HASHTAG_LENGTH, MAX_HASHTAG_COUNT} from './data.js';
+import { MAX_LENGTH_COMMENT, MAX_HASHTAG_LENGTH, MAX_HASHTAG_COUNT} from './data.js';
 
 const commentUserInput = document.querySelector('.text__description');
 const textHashtagInput = document.querySelector('.text__hashtags');
@@ -15,18 +15,20 @@ commentUserInput.addEventListener('input', () => {
 
 
 // Валидация хэштега
+
+// Валидация хэштега
 const validateHashtag = (hashtag) => {
   const regexp = /^#[A-Za-zА-Яа-яЁё0-9]+$/;
 
+  const startsWithHash = !hashtag.startsWith('#');
   const isLong = hashtag.length > MAX_HASHTAG_LENGTH;
-  const isShort = hashtag.length > MIN_HASHTAG_LENGTH;
   const hasRestrictedSymbols = !regexp.test(hashtag);
 
   switch (true) {
+    case startsWithHash:
+      return 'Хэштег должен начинаться с символа # ';
     case isLong:
       return 'Слишком длинный хэштег';
-    case isShort:
-      return 'Слишком короткий хэштег';
     case hasRestrictedSymbols:
       return 'Хэштег должен начинаться с символа #, минимум 2 симв.';
     default:
@@ -39,19 +41,13 @@ textHashtagInput.addEventListener('input', () => {
   const textHashtagValue = textHashtagInput.value;
   const strHashtags = textHashtagValue.toLowerCase().split(' ');
 
-  // Проверка минимальной длины массива хэштегов. Если хэштегов нет, то и ошибок нет. Инпут валиден.
-  if (strHashtags.length === 0) {
-    textHashtagInput.setCustomValidity('');
-    textHashtagInput.reportValidity();
-    return;
-  }
-
   // Проверка максимальной длины массива хэштегов. Если хэштегов больше 5, то возвращаем ошибку и прерываем выполнение
   if (strHashtags.length > MAX_HASHTAG_COUNT) {
     textHashtagInput.setCustomValidity('Должно быть не больше 5 хэштегов');
     textHashtagInput.reportValidity();
     return;
   }
+
   // Если длина массива правильная, то проверяем каждый отдельный хэштег
   for (let index = 0; index < strHashtags; index++) {
     const hashtag = strHashtags[index];
@@ -60,7 +56,7 @@ textHashtagInput.addEventListener('input', () => {
     const hasDuplicates = strHashtags.indexOf(hashtag, index);
 
     // Если встречается, то возвращаем ошибку и прерываем выполнение
-    if (hasDuplicates) {
+    if (hasDuplicates !== -1) {
       message = 'Хэштег не должен повторяться';
       break;
     }
@@ -73,10 +69,11 @@ textHashtagInput.addEventListener('input', () => {
       message = error;
       break;
     }
+    textHashtagInput.setCustomValidity(message);
   }
 
   // Здесь выводим сообщение об ошибке или обнуляем его, если ошибок не было
-  textHashtagInput.setCustomValidity(message);
+
   textHashtagInput.reportValidity();
 });
 
@@ -86,5 +83,3 @@ const stopEventEsc = (evt) => {
 
 commentUserInput.addEventListener('keydown', stopEventEsc);
 textHashtagInput.addEventListener('keydown', stopEventEsc);
-
-
