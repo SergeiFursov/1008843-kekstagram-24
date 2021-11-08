@@ -46,7 +46,7 @@ const DESCRIPTIONS = [
   'Как-то увидела его фотографию — понравился',
 ];
 
-const COMMENTS_COUNT = 5;
+const COMMENTS_COUNT = 25;
 const PHOTOS_DESCRIPTION_COUNT = 25;
 const MIN_HASHTAG_LENGTH = 2;
 const MAX_HASHTAG_LENGTH = 20;
