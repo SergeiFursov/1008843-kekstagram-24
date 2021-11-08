@@ -1,6 +1,7 @@
 import {miniatures} from './miniatures.js';
 import {bodyElement} from './upload-file.js';
 import {isEscapeKey} from './util.js';
+import {INITIAL_NUMBER_COMMENTS} from './data.js';
 
 const bigPictureOpen = document.querySelector('.big-picture');
 const pictureThumbnails = document.querySelectorAll('.picture');
@@ -12,14 +13,14 @@ const closeUserBigPicture = document.querySelector('.big-picture__cancel');
 const descriptionBigPicture = document.querySelector('.social__caption');
 const socialComments = document.querySelector('.social__comments');
 const commentsCount = document.querySelector('.social__comment-count');
-const commentsLoad = document.querySelector('.social__comments-loader');
+const buttonUploadComments = document.querySelector('.comments-loader');
 const socialComment = document.querySelector('.social__comment');
 
 const commentsFragment = document.createDocumentFragment();
 
 //Добавляем комментарии
 
-for (let index = 0; index < 23; index++) {
+for (let index = 0; index < miniatures.length; index++) {
   const commentElement = socialComment.cloneNode(true);
   commentsFragment.append(commentElement);
   if (index > 2) {
@@ -29,18 +30,17 @@ for (let index = 0; index < 23; index++) {
 
 socialComments.append(commentsFragment);
 
-// Счетчик комментариев
 const commentsUsers = document.querySelectorAll('.social__comment');
-//console.log(commentsUsers.length);
 
-let counter = 5;
+
+let counter;
 const onCommentLoad = () => {
   const total = totalComments.textContent;
   counter = total;
   commentsCount.textContent = ` ${counter} из ${total} комментариев `;
 
   if (counter) {
-    commentsLoad.classList.add('hidden');
+    buttonUploadComments.classList.add('hidden');
   }
 
   for (let index = 0; index < commentsUsers.length; index++) {
@@ -50,13 +50,20 @@ const onCommentLoad = () => {
   }
 };
 
-commentsLoad.addEventListener('click', onCommentLoad);
+buttonUploadComments.addEventListener('click', onCommentLoad);
 
 const onFullScreenEscKeydown = (evt) => {
   if (isEscapeKey(evt)) { // )
     evt.preventDefault();
     bigPictureOpen.classList.add('hidden');
     bodyElement.classList.remove('modal-open');
+    buttonUploadComments.classList.remove('hidden');
+    counter = INITIAL_NUMBER_COMMENTS;
+    commentsCount.textContent = ` ${counter} из ${totalComments.textContent} комментариев`;
+
+    for (let index = 0; index < commentsUsers.length - 5; index++) {
+      commentsUsers[index].classList.add('hidden');
+    }
   }
 };
 
@@ -71,6 +78,14 @@ function closeBigPicture() {
   bigPictureOpen.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onFullScreenEscKeydown);
+
+  buttonUploadComments.classList.remove('hidden');
+  counter = INITIAL_NUMBER_COMMENTS;
+  commentsCount.textContent = ` ${counter} из ${totalComments.textContent} комментариев`;
+
+  for (let index = 0; index < commentsUsers.length - 5; index++) {
+    commentsUsers[index].classList.add('hidden');
+  }
 }
 
 const avatarUserComment = socialComments.querySelectorAll('.social__picture');
