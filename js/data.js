@@ -48,8 +48,9 @@ const DESCRIPTIONS = [
 
 const COMMENTS_COUNT = 5;
 const PHOTOS_DESCRIPTION_COUNT = 25;
-
-const MAX_LENGTH = 140;
+const MAX_HASHTAG_LENGTH = 20;
+const MAX_LENGTH_COMMENT = 140;
+const MAX_HASHTAG_COUNT = 5;
 
 const generateId = createIdGenerator ();
 
@@ -87,4 +88,4 @@ const createUserPost = () => {
 
 const createUserPosts = () => Array.from({length: PHOTOS_DESCRIPTION_COUNT}, createUserPost);
 
-export {createUserPosts, MAX_LENGTH};
+export {createUserPosts, MAX_LENGTH_COMMENT, MAX_HASHTAG_LENGTH, MAX_HASHTAG_COUNT};
