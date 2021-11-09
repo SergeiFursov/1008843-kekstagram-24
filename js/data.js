@@ -89,5 +89,5 @@ const createUserPost = () => {
 const createUserPosts = () => Array.from({length: PHOTOS_DESCRIPTION_COUNT}, createUserPost);
 
 
-export {createUserPosts,MAX_LENGTH_COMMENT, MIN_HASHTAG_LENGTH, MAX_HASHTAG_LENGTH, MAX_HASHTAG_COUNT};
+export {createUserPosts,MAX_LENGTH_COMMENT, MAX_HASHTAG_LENGTH, MAX_HASHTAG_COUNT};
 
