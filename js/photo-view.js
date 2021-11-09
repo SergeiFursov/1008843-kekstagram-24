@@ -1,7 +1,6 @@
 import {miniatures} from './miniatures.js';
 import {bodyElement} from './upload-file.js';
 import {isEscapeKey} from './util.js';
-import {INITIAL_NUMBER_COMMENTS} from './data.js';
 
 const bigPictureOpen = document.querySelector('.big-picture');
 const pictureThumbnails = document.querySelectorAll('.picture');
@@ -60,7 +59,6 @@ const onFullScreenEscKeydown = (evt) => {
     bigPictureOpen.classList.add('hidden');
     bodyElement.classList.remove('modal-open');
     buttonUploadComments.classList.remove('hidden');
-    counter = INITIAL_NUMBER_COMMENTS;
     commentsCount.textContent = ` ${counter} из ${totalComments.textContent} комментариев`;
 
     for (let index = 0; index < commentsUsers.length - 5; index++) {
@@ -81,7 +79,7 @@ function closeBigPicture() {
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onFullScreenEscKeydown);
   buttonUploadComments.classList.remove('hidden');
-  counter = INITIAL_NUMBER_COMMENTS;
+
   commentsCount.textContent = ` ${counter} из ${totalComments.textContent} комментариев`;
 
   for (let index = 0; index < commentsUsers.length - 5; index++) {
