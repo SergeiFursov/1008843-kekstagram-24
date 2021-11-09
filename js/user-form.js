@@ -17,7 +17,7 @@ commentUserInput.addEventListener('input', () => {
 // Валидация хэштега
 
 const validateHashtag = (hashtag) => {
-  const regexp = /[A-Za-zА-Яа-яЁё0-9]+$/;
+  const regexp = /^#[A-Za-zА-Яа-яЁё0-9]+$/;
   const startString = !hashtag.startsWith('#');
   const isLong = hashtag.length > MAX_HASHTAG_LENGTH;
   const hasRestrictedSymbols = !regexp.test(hashtag);
@@ -40,10 +40,18 @@ textHashtagInput.addEventListener('input', () => {
   const textHashtagValue = textHashtagInput.value;
   const strHashtags = textHashtagValue.toLowerCase().split(' ');
 
+  // Проверка минимальной длины массива хэштегов. Если хэштегов нет, то и ошибок нет. Инпут валиден.
+  if (strHashtags.length === 0) {
+    textHashtagInput.setCustomValidity('');
+    textHashtagInput.reportValidity();
+    return;
+  }
+
   // Проверка максимальной длины массива хэштегов. Если хэштегов больше 5, то возвращаем ошибку и прерываем выполнение
   if (strHashtags.length > MAX_HASHTAG_COUNT) {
     textHashtagInput.setCustomValidity('Должно быть не больше 5 хэштегов');
-    //return;
+    textHashtagInput.reportValidity();
+    return;
   }
 
   // Если длина массива правильная, то проверяем каждый отдельный хэштег
@@ -71,6 +79,7 @@ textHashtagInput.addEventListener('input', () => {
     // Здесь выводим сообщение об ошибке или обнуляем его, если ошибок не было
 
   }
+
   textHashtagInput.setCustomValidity(message);
   textHashtagInput.reportValidity();
 });
