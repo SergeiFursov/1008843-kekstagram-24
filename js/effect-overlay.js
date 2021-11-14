@@ -58,19 +58,19 @@ const sliderUpdateOptions = (evt, distance, mark, move) => {
   }
 };
 
-const updateFilter = (effect, unit) => (values, handle) => {
+const updateFilter = (layer, unit) => (values, handle) => {
   levelValueEffect.value = values[handle];
-  imgUploadPreview.style.filter = `${effect}(${levelValueEffect.value}${unit})`;
+  imgUploadPreview.style.filter = `${layer}(${levelValueEffect.value}${unit})`;
 };
 
 effectChrome.addEventListener('change', (evt) => {
   sliderUpdateOptions(evt, { 'min': 0, 'max': 1 }, 1, 0.1);
-  sliderEffects.noUiSlider.on('update', updateFilter('grayscale'));
+  sliderEffects.noUiSlider.on('update', updateFilter('grayscale', '0'));
 });
 
 effectSepia.addEventListener('change', (evt) => {
   sliderUpdateOptions(evt, { 'min': 0, 'max': 1 }, 1, 0.1);
-  sliderEffects.noUiSlider.on('update', updateFilter('sepia'));
+  sliderEffects.noUiSlider.on('update', updateFilter('sepia', '0'));
 });
 
 effectInvert.addEventListener('change', (evt) => {
@@ -85,7 +85,7 @@ effectBlur.addEventListener('change', (evt) => {
 
 effectBrightness.addEventListener('change', (evt) => {
   sliderUpdateOptions(evt, { 'min': 1, 'max': 3 }, 3, 0.1);
-  sliderEffects.noUiSlider.on('update', updateFilter('brightness'));
+  sliderEffects.noUiSlider.on('update', updateFilter('brightness', '0'));
 });
 
 export { sliderEffects };
