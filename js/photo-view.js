@@ -12,30 +12,8 @@ const totalComments= document.querySelector('.comments-count');
 const closeUserBigPicture = document.querySelector('.big-picture__cancel');
 const descriptionBigPicture = document.querySelector('.social__caption');
 const commentsList = document.querySelector('.social__comments');
+const buttonLoadMoreComments = document.querySelector('.comments-loader');
 
-//const commentsCount = document.querySelector('.social__comment-count');
-const socialComment = document.querySelector('.social__comment');
-const commentsFragment = document.createDocumentFragment();
-
-//Добавляем комментарии
-
-function getComments() {
-  const commentElement = socialComment.cloneNode(true);
-  commentsFragment.appendChild(commentElement);
-  commentsList.appendChild(commentsFragment);
-}
-
-for (let index = 0; index < 3; index++) {
-  getComments(miniatures[index]);
-}
-
-const buttonUploadComments = document.querySelector('.comments-loader');
-
-buttonUploadComments.addEventListener('click', () => {
-  for (let index = 0; index < 3; index++) {
-    getComments(miniatures[index]);
-  }
-});
 
 // Закрываем по ESC
 
@@ -44,7 +22,7 @@ const onFullScreenEscKeydown = (evt) => {
     evt.preventDefault();
     bigPictureOpen.classList.add('hidden');
     bodyElement.classList.remove('modal-open');
-    buttonUploadComments.classList.remove('hidden');
+
   }
 };
 
@@ -59,7 +37,7 @@ function closeBigPicture() {
   bigPictureOpen.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
   document.removeEventListener('keydown', onFullScreenEscKeydown);
-  buttonUploadComments.classList.remove('hidden');
+
 }
 
 // Передаем данные в комментарии
@@ -87,4 +65,28 @@ pictureThumbnails.forEach((thumbnail, index) => {
 
 closeUserBigPicture.addEventListener('click', () => {
   closeBigPicture();
+});
+
+// Создаем элемент разметки
+
+const socialComment = document.querySelector('.social__comment');
+const commentsFragment = document.createDocumentFragment();
+const createComment = (commentary) => {
+  const commentElement = socialComment.cloneNode(true);
+  const avatarUser = commentElement.querySelector('.social__picture');
+  const textCommentUser = commentElement.querySelector('.social__text');
+
+  avatarUser.src = commentary.avatar;
+  avatarUser.alt = commentary.name;
+  textCommentUser.textContent = commentary.message;
+  commentsFragment.appendChild(commentElement);
+  commentsList.appendChild(commentsFragment);
+
+};
+
+buttonLoadMoreComments.addEventListener('click', () => {
+  for (let index = 0; index < 5; index++) {
+    createComment(miniatures[index].comments[index]);
+  }
+
 });
