@@ -85,8 +85,11 @@ const createComment = (commentary) => {
 };
 
 buttonLoadMoreComments.addEventListener('click', () => {
-  for (let index = 0; index < 5; index++) {
-    createComment(miniatures[index].comments[index]);
-  }
 
+  let num = 0;
+  for (let index = num; index < num + 5; index++) {
+    createComment(miniatures[index].comments[index]);
+    commentsList.appendChild(commentsFragment);
+    num += 5;
+  }
 });
