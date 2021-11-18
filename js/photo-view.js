@@ -12,9 +12,9 @@ const closeUserBigPicture = document.querySelector('.big-picture__cancel');
 const descriptionBigPicture = document.querySelector('.social__caption');
 const commentsList = document.querySelector('.social__comments');
 const buttonLoadMoreComments = document.querySelector('.comments-loader');
+
 const numberOpenComments = document.querySelector('.social__comment-count');
-let commentsCount = numberOpenComments.firstChild;
-let countOpenComments = 5;
+const commentsOpen = numberOpenComments.firstChild;
 
 // Закрываем по ESC
 
@@ -73,30 +73,27 @@ const createComment = (comment) => {
   return commentsFragment;
 };
 
+
 // Передаем данные
 
-let startIndex = 0;
-const COUNT_COMMENT = 5;
-function addСomments() {
-  for (let index = startIndex; index < startIndex + COUNT_COMMENT; index++) {
+//let startIndex = 0;
+let countComment = 5;
+function addСomments(step) {
+
+  for (let index = 0; index < step; index++) {
     createComment(miniatures[index].comments[index]);
     commentsList.appendChild(commentsFragment);
   }
-  startIndex += 5;
+  //startIndex += 5;
 }
 
 const onMiniatureClick = (miniature) => () => {
   openBigPicture();
-  commentsCount.textContent = ` ${countOpenComments} из `;
   commentsList.innerHTML = '';
-  addСomments();
-
+  addСomments(5);
+  commentsOpen.textContent = ` ${countComment} из `;
   //const avatarsUser = commentsList.querySelectorAll('.social__picture');
   //const textCommentsUser = commentsList.querySelectorAll('.social__text');
-  //console.log(commentsList);
-  //console.log(avatarsUser);
-  //console.log(avatarsUser);
-
 
   imgBig.src = miniature.url;
   likesCount.textContent = miniature.likes;
@@ -111,6 +108,10 @@ const onMiniatureClick = (miniature) => () => {
   */
 };
 
+pictureThumbnails.forEach((thumbnail, index) => {
+  thumbnail.addEventListener('click', onMiniatureClick(miniatures[index]));
+});
+
 function createCounter(step) {
   let counter = 0;
 
@@ -120,27 +121,21 @@ function createCounter(step) {
   };
 }
 
-pictureThumbnails.forEach((thumbnail, index) => {
-  thumbnail.addEventListener('click', onMiniatureClick(miniatures[index]), () => {
+for (const thumbnail of pictureThumbnails) {
+  thumbnail.addEventListener('click', () => {
+
     const next = createCounter(5);
-
     buttonLoadMoreComments.addEventListener('click', () => {
+
       const countTotal = totalComments.textContent;
-      commentsCount = next();
-
+      const commentsCount = next();
       addСomments(commentsCount);
-
-      countOpenComments += COUNT_COMMENT;
-
-      commentsCount.textContent = ` ${countOpenComments} из `;
-      if (countOpenComments >= countTotal) {
+      countComment += commentsCount;
+      commentsOpen.textContent = ` ${countComment} из `;
+      if (countComment >= countTotal) {
         buttonLoadMoreComments.classList.add('hidden');
       }
-
-
     });
-
   });
-});
-
+}
 
