@@ -13,7 +13,7 @@ const descriptionBigPicture = document.querySelector('.social__caption');
 const commentsList = document.querySelector('.social__comments');
 const buttonLoadMoreComments = document.querySelector('.comments-loader');
 const numberOpenComments = document.querySelector('.social__comment-count');
-const commentsCount = numberOpenComments.firstChild;
+let commentsCount = numberOpenComments.firstChild;
 let countOpenComments = 5;
 
 // Закрываем по ESC
@@ -111,20 +111,36 @@ const onMiniatureClick = (miniature) => () => {
   */
 };
 
+function createCounter(step) {
+  let counter = 0;
+
+  return () => {
+    counter += step;
+    return counter;
+  };
+}
+
 pictureThumbnails.forEach((thumbnail, index) => {
-  thumbnail.addEventListener('click', onMiniatureClick(miniatures[index]));
+  thumbnail.addEventListener('click', onMiniatureClick(miniatures[index]), () => {
+    const next = createCounter(5);
+
+    buttonLoadMoreComments.addEventListener('click', () => {
+      const countTotal = totalComments.textContent;
+      commentsCount = next();
+
+      addСomments(commentsCount);
+
+      countOpenComments += COUNT_COMMENT;
+
+      commentsCount.textContent = ` ${countOpenComments} из `;
+      if (countOpenComments >= countTotal) {
+        buttonLoadMoreComments.classList.add('hidden');
+      }
+
+
+    });
+
+  });
 });
 
-// Добавляем комментарии
-
-buttonLoadMoreComments.addEventListener('click', () => {
-  const countTotal = totalComments.textContent;
-  addСomments();
-  countOpenComments += COUNT_COMMENT;
-  commentsCount.textContent = ` ${countOpenComments} из `;
-
-  if (countOpenComments >= countTotal) {
-    buttonLoadMoreComments.classList.add('hidden');
-  }
-});
 
