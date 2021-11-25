@@ -24,4 +24,6 @@ scaleControlBigger.addEventListener('click', () => {
   }
 });
 
-export { scaleControlValue, scaleControlCount, counter };
+
+export { scaleControlValue, scaleControlCount };
+

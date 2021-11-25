@@ -1,4 +1,5 @@
 import {isEscapeKey} from './util.js';
+import {sliderEffects} from './effect-overlay.js';
 
 const userFormElement = document.querySelector('.img-upload__overlay');
 const userFormOpenElement = document.querySelector('#upload-file');
@@ -14,19 +15,20 @@ const onFormEscKeydown = (evt) => {
   }
 };
 
-function openUserForm () {
+const openUserForm = () => {
   userFormElement.classList.remove('hidden');
   bodyElement.classList.add('modal-open');
+  sliderEffects.classList.add('hidden');
 
   closeFormEsc.addEventListener('keydown', onFormEscKeydown);
-}
+};
 
-function closeUserForm () {
+const closeUserForm = () => {
   userFormElement.classList.add('hidden');
   bodyElement.classList.remove('modal-open');
 
   document.removeEventListener('keydown', onFormEscKeydown);
-}
+};
 
 userFormOpenElement.addEventListener('click', () => {
   openUserForm();

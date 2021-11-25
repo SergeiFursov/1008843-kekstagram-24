@@ -88,7 +88,5 @@ effectBrightness.addEventListener('change', (evt) => {
   sliderEffects.noUiSlider.on('update', updateFilter('brightness', '0'));
 });
 
-export { sliderEffects };
 
-// ! Сделать сброс на оригинал размер фото после отправки - 100%
-// ! Сброс эффекта на оригинал при отправке формы
+
