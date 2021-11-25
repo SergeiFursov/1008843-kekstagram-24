@@ -1,4 +1,4 @@
-import {createIdGenerator, getRandomNumber, shuffle} from './util.js';
+/*import {createIdGenerator, getRandomNumber, shuffle} from './util.js';
 
 const MESSAGES = [
   'Всё отлично!',
@@ -92,3 +92,4 @@ const createUserPosts = () => Array.from({length: PHOTOS_DESCRIPTION_COUNT}, cre
 
 export {createUserPosts,INITIAL_NUMBER_COMMENTS,MAX_LENGTH_COMMENT, MAX_HASHTAG_LENGTH, MAX_HASHTAG_COUNT};
 
+*/

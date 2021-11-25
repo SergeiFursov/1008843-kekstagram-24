@@ -1,17 +1,29 @@
-import { MAX_LENGTH_COMMENT, MAX_HASHTAG_LENGTH, MAX_HASHTAG_COUNT} from './data.js';
+//import { MAX_LENGTH_COMMENT, MAX_HASHTAG_LENGTH, MAX_HASHTAG_COUNT } from './data.js';
+import { isStringShorterThanMax } from './util.js';
+import { closeUserForm } from './upload-file.js';
+import { showMessageSuccess, showMessageError } from './sending-form.js';
+import { sendData } from './api.js';
 
+const MAX_HASHTAG_COUNT = 5;
+const MAX_HASHTAG_LENGTH = 20;
+const MAX_LENGTH_COMMENT = 140;
+
+const imgUploadForm = document.querySelector('.img-upload__form');
 const commentUserInput = document.querySelector('.text__description');
 const textHashtagInput = document.querySelector('.text__hashtags');
 
-commentUserInput.addEventListener('input', () => {
-  const length = commentUserInput.value.length;
-  if (length > MAX_LENGTH_COMMENT) {
-    commentUserInput.setCustomValidity(`Удалите лишние ${length - MAX_LENGTH_COMMENT} симв. Длина комментария 140 симв.`);
+const checkLengthComment = () => {
+  const comment = commentUserInput.value.length;
+  const isLongComment = !isStringShorterThanMax(comment, MAX_LENGTH_COMMENT);
+
+  if (isLongComment) {
+    commentUserInput.setCustomValidity(`Удалите лишние ${comment - MAX_LENGTH_COMMENT} симв.`);
   } else {
     commentUserInput.setCustomValidity('');
   }
   commentUserInput.reportValidity();
-});
+};
+commentUserInput.addEventListener('input', checkLengthComment);
 
 
 // Валидация хэштега
@@ -90,3 +102,17 @@ const stopEventEsc = (evt) => {
 
 commentUserInput.addEventListener('keydown', stopEventEsc);
 textHashtagInput.addEventListener('keydown', stopEventEsc);
+
+const setFormSubmit = (onSuccess) => {
+  imgUploadForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+
+    sendData(
+      () => { onSuccess(), showMessageSuccess(); },
+      () => { closeUserForm(), showMessageError(); },
+      new FormData(evt.target),
+    );
+  });
+};
+
+export { setFormSubmit, textHashtagInput, commentUserInput };

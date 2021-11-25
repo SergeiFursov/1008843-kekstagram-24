@@ -31,6 +31,16 @@ function createIdGenerator () {
   };
 }
 
+
+function createCounter(step, maxValue) {
+  let counter = 0;
+
+  return () => {
+    counter += step;
+    return Math.min(counter, maxValue);
+  };
+}
+
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {createIdGenerator, shuffle, getRandomNumber, isEscapeKey, isStringShorterThanMax};
+export {createCounter, createIdGenerator, shuffle, getRandomNumber, isEscapeKey, isStringShorterThanMax};
